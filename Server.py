@@ -12,8 +12,6 @@ class Server(object):
         no_need_to_delay = ["__init__", "__module__", "__dict__", "__weakref__", "__doc__",
                             "connexion"]
         method = object.__getattribute__(self, attr)
-        if not method:
-            raise Exception("Method %s not implemented" % attr)
         if type(method) == types.MethodType:
             if attr not in no_need_to_delay:
                 time.sleep(5)
@@ -34,3 +32,9 @@ class Server(object):
 
     def sbs_set_challenges(self, set_id):
         return self.session.sbsSetChallenges(set_id)
+
+    def sbs_squads(self, challenge_id):
+        return self.session.sbsSquad(challenge_id)
+
+    def sbs_start(self, challenge_id):
+        return self.session.sbsStart(challenge_id)

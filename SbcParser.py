@@ -22,12 +22,24 @@ class SbcParser:
             exit()
 
     def get_sbcs(self):
-        challenges = []
+        challenges_data = []
         if self.connexion():
             sets = self.server.sbs_sets()
             for category in sets['categories']:
                 for set_data in category['sets']:
-                    challenge = self.server.sbs_set_challenges(set_data['setId'])['challenges']
-                    print("New sbs found")
-                    challenges = challenges + challenge
-        return challenges
+                    challenges = self.server.sbs_set_challenges(set_data['setId'])['challenges']
+                    for challenge in challenges:
+                        challenge_id = challenge["challengeId"]
+                        status = challenge["status"]
+                        if status == 'NOT_STARTED':
+                            challenge_details = self.server.sbs_start(challenge_id)
+                        elif status == 'IN_PROGRESS':
+                            challenge_details = self.server.sbs_squads(challenge_id)
+                        elif status == 'COMPLETED':
+                            print("Challenge already completed")
+                            print(challenge)
+                        if 'playerRequirements' in challenge_details:
+                            challenge["playerRequirements"] = challenge_details["playerRequirements"]
+                        challenge["squad"] = challenge_details["squad"]
+                        challenges_data.append(challenge)
+        return challenges_data
