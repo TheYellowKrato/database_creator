@@ -29,5 +29,5 @@ class SbcParser:
                 for set_data in category['sets']:
                     challenge = self.server.sbs_set_challenges(set_data['setId'])['challenges']
                     print("New sbs found")
-                    challenges.append(challenge)
+                    challenges = challenges + challenge
         return challenges
