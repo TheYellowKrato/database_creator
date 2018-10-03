@@ -14,7 +14,7 @@ class Server(object):
         method = object.__getattribute__(self, attr)
         if type(method) == types.MethodType:
             if attr not in no_need_to_delay:
-                time.sleep(5)
+                time.sleep(3)
         return method
 
     def connexion(self, login, password, pass_phrase, platform):

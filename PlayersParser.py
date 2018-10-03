@@ -20,7 +20,7 @@ class PlayersParser(object):
 
         total_pages = players_json["totalPages"]
 
-        for page in tqdm(range(1, total_pages + 1), desc='Loading players'):
+        for page in tqdm(range(1, total_pages + 1), desc='Loading players 24/pages'):
             players_data = urllib.request.urlopen(self.base_url + str(page)).read()
             players_json = json.loads(players_data.decode("utf-8"))
             players = players + players_json["items"]

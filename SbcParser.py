@@ -1,3 +1,5 @@
+from tqdm import tqdm
+
 from ConfigLoader import ConfigLoader
 from Server import Server
 
@@ -21,14 +23,14 @@ class SbcParser:
             print("No account found into config.json please follow config_example")
             exit()
 
-    def get_sbcs(self):
+    def get_sbs(self):
         challenges_data = []
         if self.connexion():
             sets = self.server.sbs_sets()
-            for category in sets['categories']:
-                for set_data in category['sets']:
+            for category in tqdm(sets['categories'], desc='Categories'):
+                for set_data in tqdm(category['sets'], desc='Sets'):
                     challenges = self.server.sbs_set_challenges(set_data['setId'])['challenges']
-                    for challenge in challenges:
+                    for challenge in tqdm(challenges, desc='Challenges'):
                         challenge_id = challenge["challengeId"]
                         status = challenge["status"]
                         if status == 'NOT_STARTED':
